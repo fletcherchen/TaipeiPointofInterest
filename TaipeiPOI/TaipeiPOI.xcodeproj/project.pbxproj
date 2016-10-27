@@ -15,6 +15,7 @@
 		1A4440BF1DC1DF9B0001282E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A4440BD1DC1DF9B0001282E /* LaunchScreen.storyboard */; };
 		1A4440CA1DC1DF9B0001282E /* TaipeiPOITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4440C91DC1DF9B0001282E /* TaipeiPOITests.m */; };
 		1A4440D51DC1DF9B0001282E /* TaipeiPOIUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4440D41DC1DF9B0001282E /* TaipeiPOIUITests.m */; };
+		1A71B18F1DC1EBC6001898A4 /* POIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A71B18E1DC1EBC6001898A4 /* POIModel.m */; };
 		28F9E2617B7DC16821A3E91A /* libPods-TaipeiPOIUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5577538E1519BB269DA00633 /* libPods-TaipeiPOIUITests.a */; };
 		7BCDCAF5B8A6E413CD3B8478 /* libPods-TaipeiPOI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 777784C4FF28E38ED464297C /* libPods-TaipeiPOI.a */; };
 		BE701EBEB0853DC1296C4CE0 /* libPods-TaipeiPOITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EF45633A1FF577284015DB /* libPods-TaipeiPOITests.a */; };
@@ -56,6 +57,8 @@
 		1A4440D01DC1DF9B0001282E /* TaipeiPOIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaipeiPOIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A4440D41DC1DF9B0001282E /* TaipeiPOIUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaipeiPOIUITests.m; sourceTree = "<group>"; };
 		1A4440D61DC1DF9B0001282E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A71B18D1DC1EBC6001898A4 /* POIModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIModel.h; sourceTree = "<group>"; };
+		1A71B18E1DC1EBC6001898A4 /* POIModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIModel.m; sourceTree = "<group>"; };
 		274821D6375E3F0F1A903FEF /* Pods-TaipeiPOI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaipeiPOI.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaipeiPOI/Pods-TaipeiPOI.release.xcconfig"; sourceTree = "<group>"; };
 		5577538E1519BB269DA00633 /* libPods-TaipeiPOIUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TaipeiPOIUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		600BE68EA10BFB2C67AFF7EA /* Pods-TaipeiPOIUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaipeiPOIUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaipeiPOIUITests/Pods-TaipeiPOIUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				1A4440B31DC1DF9B0001282E /* AppDelegate.m */,
 				1A4440B51DC1DF9B0001282E /* ViewController.h */,
 				1A4440B61DC1DF9B0001282E /* ViewController.m */,
+				1A71B18D1DC1EBC6001898A4 /* POIModel.h */,
+				1A71B18E1DC1EBC6001898A4 /* POIModel.m */,
 				1A4440B81DC1DF9B0001282E /* Main.storyboard */,
 				1A4440BB1DC1DF9B0001282E /* Assets.xcassets */,
 				1A4440BD1DC1DF9B0001282E /* LaunchScreen.storyboard */,
@@ -464,6 +469,7 @@
 			files = (
 				1A4440B71DC1DF9B0001282E /* ViewController.m in Sources */,
 				1A4440B41DC1DF9B0001282E /* AppDelegate.m in Sources */,
+				1A71B18F1DC1EBC6001898A4 /* POIModel.m in Sources */,
 				1A4440B11DC1DF9B0001282E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +543,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -585,6 +592,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

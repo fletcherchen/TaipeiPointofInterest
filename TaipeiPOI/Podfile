@@ -6,6 +6,7 @@ target 'TaipeiPOI' do
   # use_frameworks!
   pod 'JSONModel'
   pod 'AFNetworking'
+  pod 'SDWebImage'
 
   # Pods for TaipeiPOI
 
