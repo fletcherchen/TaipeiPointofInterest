@@ -56,7 +56,9 @@
     POITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"POICell" forIndexPath:indexPath];
     
     NSURL* url = [NSURL URLWithString:self.dataSource[indexPath.section][indexPath.row].file];
-    [cell.thumbnailImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
+    cell.thumbnailImageView.image = nil;
+    [cell.thumbnailImageView sd_setImageWithURL:url];
     
     cell.titleLabel.text = self.dataSource[indexPath.section][indexPath.row].stitle;
     cell.bodyLabel.text = self.dataSource[indexPath.section][indexPath.row].xbody;
