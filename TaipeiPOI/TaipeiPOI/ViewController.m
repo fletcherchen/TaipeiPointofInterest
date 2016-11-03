@@ -11,7 +11,10 @@
 #import "POIModel.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 @interface ViewController ()
-
+{
+    NSMutableArray *catArray;
+    NSMutableArray *dataArray;
+}
 @end
 
 @implementation ViewController
@@ -26,6 +29,8 @@
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
+    catArray = [[NSMutableArray alloc] init];
+    dataArray = [[NSMutableArray alloc] init];
     
     [self getPOIList];
 }
@@ -44,6 +49,7 @@
         NSError *error;
         self.dataSource = [POIModel arrayOfModelsFromDictionaries:responseObject[@"result"][@"results"] error:&error];
         [self.tableView reloadData];
+        [self matchArrayWithString];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Error: %@", error);
     }];
@@ -78,6 +84,32 @@
     body.text = [self.dataSource[indexPath.row] xbody];
     
     return cell;
+}
+
+- (void)matchArrayWithString {
+    for (int i = 0; i < self.dataSource.count; i++) {
+        BOOL isTheObjectThere = [catArray containsObject: [self.dataSource[i] CAT2]];
+        if (!isTheObjectThere) {
+            [catArray addObject:[self.dataSource[i] CAT2]];
+        }
+    }
+}
+- (IBAction)singleClassPressed:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Category"
+                                                                   message:@"Please choose one category."
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    for (int i = 0; i < catArray.count; i++) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:catArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alert addAction:action];
+    }
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                           }];
+    
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
