@@ -7,20 +7,139 @@
 //
 
 #import "ViewController.h"
-#import "AFNetworking.h"
 #import "POIModel.h"
+#import "POITableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <LOAlertController/UIAlertController+LOAlertController.h>
+#import <AFNetworking/AFNetworking.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+
+#define kAllValues @"AllValues"
+
 @interface ViewController ()
-{
-    NSMutableArray *catArray;
-    NSMutableArray *dataArray;
-}
+@property (strong, nonatomic) NSMutableArray <POIModel*>* dataSource;
+@property (strong, nonatomic) NSDictionary *resultsDict;
+@property (strong, nonatomic) NSMutableArray *catArray;
+@property (strong, nonatomic) NSMutableArray *dataArray;
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
+
+@property (strong, nonatomic) NSString* currentCategory;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.currentCategory = kAllValues;
+
+    [self setUpTableView];
+    [self getPOIListComplete:nil];
+    
+
+}
+
+-(void)shouldRefresh:(UIRefreshControl*)refreshControl {
+    
+    [self getPOIListComplete:^{
+        [refreshControl endRefreshing];
+    }];
+}
+
+#pragma mark - UITableViewDelegate UITableViewDatasource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    POITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"POICell" forIndexPath:indexPath];
+    
+    NSURL* url = [NSURL URLWithString:self.dataSource[indexPath.row].file];
+    [cell.thumbnailImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
+    cell.titleLabel.text = self.dataSource[indexPath.row].stitle;
+    cell.bodyLabel.text = self.dataSource[indexPath.row].xbody;
+    
+    return cell;
+}
+#pragma mark - IBAction
+
+- (IBAction)singleClassPressed:(id)sender {
+    [UIAlertController showWithController:self
+                              cancelTitle:@"Cancel"
+                                     type:UIAlertControllerStyleActionSheet
+                                    title:@"Category"
+                                  message:@"Please choose one category"
+                                  buttons:self.resultsDict.allKeys complete:^(NSInteger buttonIndex) {
+                                      //cancel
+                                      if (buttonIndex == -1) {
+                                          //do nothing
+                                          return;
+                                      }
+                                      
+                                      self.currentCategory = self.resultsDict.allKeys[buttonIndex];
+                                      [self.tableView reloadData];
+                                  }];
+}
+- (IBAction)allValuesBtnPressed:(UIButton *)sender {
+    self.currentCategory = kAllValues;
+    [self.tableView reloadData];
+}
+
+#pragma mark - methods
+
+- (void)getPOIListComplete:(void(^)(void))complete {
+    NSString *url = @"http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=36847f3f-deff-4183-a5bb-800737591de5";
+    
+    [SVProgressHUD show];
+    [self.manager GET:url
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+                  NSArray* results = [POIModel arrayOfModelsFromDictionaries:responseObject[@"result"][@"results"]
+                                                                    error:nil];
+                  
+                  self.resultsDict = [self matchArrayWithString:results];
+                  [self.tableView reloadData];
+                  [SVProgressHUD dismiss];
+                  
+                  if (complete) {
+                      complete();
+                  }
+                  
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+        if (complete) {
+            complete();
+        }
+    }];
+}
+
+- (NSDictionary *)matchArrayWithString:(NSArray <POIModel *>*)models {
+    
+    NSMutableDictionary *results = [[NSMutableDictionary alloc]init];
+
+    for (POIModel *model in models) {
+        if (!results[kAllValues]) {
+            results[kAllValues] = [[NSMutableArray alloc]init];
+        }
+        
+        if (!results[model.CAT2]) {
+            results[model.CAT2] = [[NSMutableArray alloc]init];
+        }
+
+        [results[kAllValues] addObject:model];
+        [results[model.CAT2] addObject:model];
+    }
+
+    return results;
+}
+
+-(void)setUpTableView {
     // Do any additional setup after loading the view, typically from a nib.
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 150.0f;
@@ -28,88 +147,49 @@
     self.tableView.delegate = self;
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    catArray = [[NSMutableArray alloc] init];
-    dataArray = [[NSMutableArray alloc] init];
-    
-    [self getPOIList];
+    self.tableView.refreshControl = [self refreshControl];
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - getters & setters
+
+-(AFHTTPSessionManager *)manager {
+    return [AFHTTPSessionManager manager];
 }
 
-- (void)getPOIList {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
-    NSString *url = @"http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=36847f3f-deff-4183-a5bb-800737591de5";
-    [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSError *error;
-        self.dataSource = [POIModel arrayOfModelsFromDictionaries:responseObject[@"result"][@"results"] error:&error];
-        [self.tableView reloadData];
-        [self matchArrayWithString];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"Error: %@", error);
-    }];
+-(NSMutableArray *)catArray{
+    if (!_catArray) {
+        _catArray = [[NSMutableArray alloc]init];
+    }
+    return _catArray;
 }
 
-#pragma mark -TableView
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.dataSource count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIndentifier = @"POICell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier forIndexPath:indexPath];
-    
-    //Config Cell
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndentifier];
+-(NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [[NSMutableArray alloc]init];
     }
     
-    UIImageView *imageView = (UIImageView *)[cell viewWithTag:101];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[self.dataSource[indexPath.row] file]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    
-    UILabel *title = (UILabel *)[cell viewWithTag:102];
-    title.text = [self.dataSource[indexPath.row] stitle];
-    
-    UILabel *body = (UILabel *)[cell viewWithTag:103];
-    body.text = [self.dataSource[indexPath.row] xbody];
-    
-    return cell;
+    return _dataArray;
 }
 
-- (void)matchArrayWithString {
-    for (int i = 0; i < self.dataSource.count; i++) {
-        BOOL isTheObjectThere = [catArray containsObject: [self.dataSource[i] CAT2]];
-        if (!isTheObjectThere) {
-            [catArray addObject:[self.dataSource[i] CAT2]];
-        }
+-(NSDictionary *)resultsDict {
+    if (!_resultsDict) {
+        _resultsDict = [[NSDictionary alloc]init];
     }
-}
-- (IBAction)singleClassPressed:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Category"
-                                                                   message:@"Please choose one category."
-                                                            preferredStyle:UIAlertControllerStyleActionSheet];
-    for (int i = 0; i < catArray.count; i++) {
-        UIAlertAction *action = [UIAlertAction actionWithTitle:catArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        [alert addAction:action];
-    }
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:^(UIAlertAction * action) {
-                                                           }];
     
-    [alert addAction:cancelAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    return _resultsDict;
+}
+
+-(NSMutableArray <POIModel*>*)dataSource {
+    return self.resultsDict[self.currentCategory];
+}
+
+-(UIRefreshControl*)refreshControl {
+    UIRefreshControl* refreshControl = [[UIRefreshControl alloc]init];
+    [refreshControl addTarget:self action:@selector(shouldRefresh:) forControlEvents:UIControlEventValueChanged];
+    
+    return refreshControl;
 }
 
 @end

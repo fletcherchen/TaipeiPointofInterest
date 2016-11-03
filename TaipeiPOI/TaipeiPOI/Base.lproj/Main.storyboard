@@ -29,6 +29,9 @@
                                     <constraint firstAttribute="height" constant="30" id="71X-r8-QAS"/>
                                 </constraints>
                                 <state key="normal" title="全部資料"/>
+                                <connections>
+                                    <action selector="allValuesBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AXg-Dn-pav"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcE-NJ-bU3">
                                 <rect key="frame" x="187.5" y="627" width="171.5" height="30"/>
@@ -41,7 +44,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="601"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="POICell" rowHeight="150" id="CJ2-5E-Q5F">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="POICell" rowHeight="150" id="CJ2-5E-Q5F" customClass="POITableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CJ2-5E-Q5F" id="v0s-OJ-G2l">
@@ -55,7 +58,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5h-VW-bSt">
-                                                    <rect key="frame" x="5" y="83" width="365" height="62"/>
+                                                    <rect key="frame" x="5" y="83" width="365" height="61"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -83,6 +86,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="x5h-VW-bSt" secondAttribute="trailing" constant="5" id="yL5-Xt-8yP"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="bodyLabel" destination="x5h-VW-bSt" id="TtN-52-JYn"/>
+                                            <outlet property="thumbnailImageView" destination="YyF-s4-DVJ" id="gKN-dY-4Z9"/>
+                                            <outlet property="titleLabel" destination="4bS-Ft-RBR" id="IhD-CM-leE"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
