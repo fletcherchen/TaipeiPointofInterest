@@ -19,10 +19,7 @@
 @interface ViewController ()
 @property (strong, nonatomic) NSMutableArray <NSArray <POIModel*>*>* dataSource;
 @property (strong, nonatomic) NSDictionary *resultsDict;
-@property (strong, nonatomic) NSMutableArray *catArray;
-@property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) AFHTTPSessionManager *manager;
-
 @property (strong, nonatomic) NSString* currentCategory;
 @end
 
@@ -37,7 +34,6 @@
 }
 
 -(void)shouldRefresh:(UIRefreshControl*)refreshControl {
-    
     [self getPOIListComplete:^{
         [refreshControl endRefreshing];
     }];
@@ -76,12 +72,14 @@
 #pragma mark - IBAction
 
 - (IBAction)singleClassPressed:(id)sender {
+
     [UIAlertController showWithController:self
                               cancelTitle:@"Cancel"
                                      type:UIAlertControllerStyleActionSheet
                                     title:@"Category"
                                   message:@"Please choose one category"
-                                  buttons:self.resultsDict.allKeys complete:^(NSInteger buttonIndex) {
+                                  buttons:[self categoriesWithoutAllValues]
+                                 complete:^(NSInteger buttonIndex) {
                                       //cancel
                                       if (buttonIndex == -1) {
                                           //do nothing
@@ -92,6 +90,7 @@
                                       [self scrollToTopAndReload];
                                   }];
 }
+
 - (IBAction)allValuesBtnPressed:(UIButton *)sender {
     self.currentCategory = kAllValues;
     [self scrollToTopAndReload];
@@ -133,6 +132,12 @@
     }];
 }
 
+- (NSMutableArray *)categoriesWithoutAllValues {
+    NSMutableArray *categoies = [NSMutableArray arrayWithArray:self.resultsDict.allKeys];
+    [categoies removeObject:kAllValues];
+    return categoies;
+}
+
 - (NSDictionary *)matchArrayWithString:(NSArray <POIModel *>*)models {
     
     NSMutableDictionary *results = [[NSMutableDictionary alloc]init];
@@ -164,27 +169,10 @@
     self.tableView.refreshControl = [self refreshControl];
 }
 
-
-
 #pragma mark - getters & setters
 
 -(AFHTTPSessionManager *)manager {
     return [AFHTTPSessionManager manager];
-}
-
--(NSMutableArray *)catArray{
-    if (!_catArray) {
-        _catArray = [[NSMutableArray alloc]init];
-    }
-    return _catArray;
-}
-
--(NSMutableArray *)dataArray {
-    if (!_dataArray) {
-        _dataArray = [[NSMutableArray alloc]init];
-    }
-    
-    return _dataArray;
 }
 
 -(NSDictionary *)resultsDict {

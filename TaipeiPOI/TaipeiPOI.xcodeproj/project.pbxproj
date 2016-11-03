@@ -99,6 +99,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A24B9661DCB3F01002EAA32 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				1A4440B21DC1DF9B0001282E /* AppDelegate.h */,
+				1A4440B31DC1DF9B0001282E /* AppDelegate.m */,
+				1A71B18D1DC1EBC6001898A4 /* POIModel.h */,
+				1A71B18E1DC1EBC6001898A4 /* POIModel.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		1A24B9671DCB3F0B002EAA32 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				1A4440B51DC1DF9B0001282E /* ViewController.h */,
+				1A4440B61DC1DF9B0001282E /* ViewController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		1A24B9681DCB3F11002EAA32 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				1A24B9631DCB2218002EAA32 /* POITableViewCell.h */,
+				1A24B9641DCB2218002EAA32 /* POITableViewCell.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		1A24B9691DCB3F2A002EAA32 /* IB */ = {
+			isa = PBXGroup;
+			children = (
+				1A4440BD1DC1DF9B0001282E /* LaunchScreen.storyboard */,
+				1A4440B81DC1DF9B0001282E /* Main.storyboard */,
+			);
+			name = IB;
+			sourceTree = "<group>";
+		};
 		1A4440A31DC1DF9A0001282E = {
 			isa = PBXGroup;
 			children = (
@@ -124,18 +162,10 @@
 		1A4440AE1DC1DF9B0001282E /* TaipeiPOI */ = {
 			isa = PBXGroup;
 			children = (
-				1A4440B21DC1DF9B0001282E /* AppDelegate.h */,
-				1A4440B31DC1DF9B0001282E /* AppDelegate.m */,
-				1A4440B51DC1DF9B0001282E /* ViewController.h */,
-				1A4440B61DC1DF9B0001282E /* ViewController.m */,
-				1A71B18D1DC1EBC6001898A4 /* POIModel.h */,
-				1A71B18E1DC1EBC6001898A4 /* POIModel.m */,
-				1A24B9631DCB2218002EAA32 /* POITableViewCell.h */,
-				1A24B9641DCB2218002EAA32 /* POITableViewCell.m */,
-				1A4440B81DC1DF9B0001282E /* Main.storyboard */,
-				1A4440BB1DC1DF9B0001282E /* Assets.xcassets */,
-				1A4440BD1DC1DF9B0001282E /* LaunchScreen.storyboard */,
-				1A4440C01DC1DF9B0001282E /* Info.plist */,
+				1A24B9691DCB3F2A002EAA32 /* IB */,
+				1A24B9661DCB3F01002EAA32 /* model */,
+				1A24B9671DCB3F0B002EAA32 /* controller */,
+				1A24B9681DCB3F11002EAA32 /* view */,
 				1A4440AF1DC1DF9B0001282E /* Supporting Files */,
 			);
 			path = TaipeiPOI;
@@ -144,6 +174,8 @@
 		1A4440AF1DC1DF9B0001282E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1A4440BB1DC1DF9B0001282E /* Assets.xcassets */,
+				1A4440C01DC1DF9B0001282E /* Info.plist */,
 				1A4440B01DC1DF9B0001282E /* main.m */,
 			);
 			name = "Supporting Files";
