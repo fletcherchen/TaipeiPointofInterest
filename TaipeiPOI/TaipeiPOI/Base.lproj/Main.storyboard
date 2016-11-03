@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -51,22 +50,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YyF-s4-DVJ">
-                                                    <rect key="frame" x="5" y="5" width="188" height="75"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="75" id="VGY-xf-0AT"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5h-VW-bSt">
-                                                    <rect key="frame" x="5" y="83" width="365" height="61"/>
+                                                    <rect key="frame" x="5" y="124" width="365" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bS-Ft-RBR">
-                                                    <rect key="frame" x="201" y="8" width="161" height="75"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OKw-ME-qe5">
+                                                    <rect key="frame" x="8" y="8" width="108" height="108"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="75" id="TLd-Uf-CVj"/>
+                                                        <constraint firstAttribute="width" constant="108" id="1L1-oU-xm4"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdS-qt-g1m">
+                                                    <rect key="frame" x="124" y="8" width="243" height="108"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="108" id="BDX-ro-lMZ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -74,22 +73,23 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="YyF-s4-DVJ" firstAttribute="leading" secondItem="v0s-OJ-G2l" secondAttribute="leading" constant="5" id="1D0-fR-0zi"/>
-                                                <constraint firstItem="4bS-Ft-RBR" firstAttribute="top" secondItem="v0s-OJ-G2l" secondAttribute="topMargin" id="3rf-G5-6yH"/>
-                                                <constraint firstItem="YyF-s4-DVJ" firstAttribute="width" secondItem="v0s-OJ-G2l" secondAttribute="width" multiplier="0.5" id="5a9-ZZ-Ksi"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4bS-Ft-RBR" secondAttribute="trailing" constant="5" id="Bh8-Yo-aIt"/>
-                                                <constraint firstItem="x5h-VW-bSt" firstAttribute="top" secondItem="4bS-Ft-RBR" secondAttribute="bottom" id="C8A-Ly-u5V"/>
+                                                <constraint firstItem="MdS-qt-g1m" firstAttribute="top" secondItem="v0s-OJ-G2l" secondAttribute="top" constant="8" id="F3v-Qx-U04"/>
+                                                <constraint firstItem="OKw-ME-qe5" firstAttribute="leading" secondItem="v0s-OJ-G2l" secondAttribute="leading" constant="8" id="GaB-L2-KAA"/>
+                                                <constraint firstItem="x5h-VW-bSt" firstAttribute="top" secondItem="MdS-qt-g1m" secondAttribute="bottom" constant="8" id="Gqd-Ye-cVz"/>
+                                                <constraint firstItem="MdS-qt-g1m" firstAttribute="leading" secondItem="OKw-ME-qe5" secondAttribute="trailing" constant="8" id="JJg-CR-xsz"/>
                                                 <constraint firstAttribute="bottom" secondItem="x5h-VW-bSt" secondAttribute="bottom" constant="5" id="K1V-7b-gxD"/>
-                                                <constraint firstItem="4bS-Ft-RBR" firstAttribute="leading" secondItem="YyF-s4-DVJ" secondAttribute="trailing" constant="8" id="Mi3-Im-XxV"/>
                                                 <constraint firstItem="x5h-VW-bSt" firstAttribute="leading" secondItem="v0s-OJ-G2l" secondAttribute="leading" constant="5" id="Nnb-Dj-Gav"/>
-                                                <constraint firstItem="YyF-s4-DVJ" firstAttribute="top" secondItem="v0s-OJ-G2l" secondAttribute="top" constant="5" id="tdG-wE-7Fe"/>
+                                                <constraint firstItem="OKw-ME-qe5" firstAttribute="top" secondItem="v0s-OJ-G2l" secondAttribute="top" constant="8" id="a2r-B6-e8O"/>
+                                                <constraint firstAttribute="trailing" secondItem="MdS-qt-g1m" secondAttribute="trailing" constant="8" id="cXe-Ym-IBf"/>
+                                                <constraint firstItem="MdS-qt-g1m" firstAttribute="leading" secondItem="OKw-ME-qe5" secondAttribute="trailing" constant="8" id="kAe-Sp-5Iq"/>
+                                                <constraint firstItem="x5h-VW-bSt" firstAttribute="top" secondItem="OKw-ME-qe5" secondAttribute="bottom" constant="8" id="xr0-4J-XUb"/>
                                                 <constraint firstAttribute="trailing" secondItem="x5h-VW-bSt" secondAttribute="trailing" constant="5" id="yL5-Xt-8yP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bodyLabel" destination="x5h-VW-bSt" id="TtN-52-JYn"/>
-                                            <outlet property="thumbnailImageView" destination="YyF-s4-DVJ" id="gKN-dY-4Z9"/>
-                                            <outlet property="titleLabel" destination="4bS-Ft-RBR" id="IhD-CM-leE"/>
+                                            <outlet property="thumbnailImageView" destination="OKw-ME-qe5" id="i93-dn-co5"/>
+                                            <outlet property="titleLabel" destination="MdS-qt-g1m" id="mkR-3R-Xdv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
