@@ -17,7 +17,7 @@
 #define kAllValues @"AllValues"
 
 @interface ViewController ()
-@property (strong, nonatomic) NSMutableArray <POIModel*>* dataSource;
+@property (strong, nonatomic) NSMutableArray <NSArray <POIModel*>*>* dataSource;
 @property (strong, nonatomic) NSDictionary *resultsDict;
 @property (strong, nonatomic) NSMutableArray *catArray;
 @property (strong, nonatomic) NSMutableArray *dataArray;
@@ -34,8 +34,6 @@
 
     [self setUpTableView];
     [self getPOIListComplete:nil];
-    
-
 }
 
 -(void)shouldRefresh:(UIRefreshControl*)refreshControl {
@@ -47,24 +45,29 @@
 
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.dataSource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataSource.count;
+    return self.dataSource[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     POITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"POICell" forIndexPath:indexPath];
     
-    NSURL* url = [NSURL URLWithString:self.dataSource[indexPath.row].file];
+    NSURL* url = [NSURL URLWithString:self.dataSource[indexPath.section][indexPath.row].file];
     [cell.thumbnailImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
-    cell.titleLabel.text = self.dataSource[indexPath.row].stitle;
-    cell.bodyLabel.text = self.dataSource[indexPath.row].xbody;
+    cell.titleLabel.text = self.dataSource[indexPath.section][indexPath.row].stitle;
+    cell.bodyLabel.text = self.dataSource[indexPath.section][indexPath.row].xbody;
     
     return cell;
 }
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return self.dataSource[section][0].CAT2;
+}
+
 #pragma mark - IBAction
 
 - (IBAction)singleClassPressed:(id)sender {
@@ -81,11 +84,17 @@
                                       }
                                       
                                       self.currentCategory = self.resultsDict.allKeys[buttonIndex];
-                                      [self.tableView reloadData];
+                                      [self scrollToTopAndReload];
                                   }];
 }
 - (IBAction)allValuesBtnPressed:(UIButton *)sender {
     self.currentCategory = kAllValues;
+    [self scrollToTopAndReload];
+}
+
+-(void)scrollToTopAndReload {
+    self.tableView.contentOffset = CGPointMake(0, 0);
+    [self.tableView layoutIfNeeded];
     [self.tableView reloadData];
 }
 
@@ -181,8 +190,28 @@
     return _resultsDict;
 }
 
--(NSMutableArray <POIModel*>*)dataSource {
-    return self.resultsDict[self.currentCategory];
+-(NSMutableArray <NSArray <POIModel*>*>*)dataSource {
+    if (!_dataSource) {
+        _dataSource = [[NSMutableArray alloc]init];
+    }
+    
+    [_dataSource removeAllObjects];
+    
+    if (!self.resultsDict[self.currentCategory]) {
+        return _dataSource;
+    }
+    
+    if ([self.currentCategory isEqualToString:kAllValues]) {
+        [self.resultsDict enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSArray <POIModel*>*  _Nonnull obj, BOOL * _Nonnull stop) {
+            [_dataSource addObject:obj];
+        }];
+        
+        return _dataSource;
+    }
+    
+    [_dataSource addObject:self.resultsDict[self.currentCategory]];
+    
+    return _dataSource;
 }
 
 -(UIRefreshControl*)refreshControl {
