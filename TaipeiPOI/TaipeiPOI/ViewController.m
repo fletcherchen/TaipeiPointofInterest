@@ -70,9 +70,6 @@
     if (self.dataSource[section].count) {
         return self.dataSource[section][0].CAT2;
     }
-    
-    NSLog(@"%@",self.dataSource[section]);
-    
     return 0;
 }
 
